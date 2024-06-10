@@ -62,12 +62,10 @@ impl IconOperationConfig for BitmaskSliceReconstruct {
             })
             .collect::<Vec<(IconState, String)>>();
 
-        if let Some(troublesome_states) = problem_entries
-            .into_iter()
-            .reduce(|acc, elem| format!("{acc}, {elem}"))
+        if problem_entries.len() > 0
         {
             return Err(ProcessorError::from(
-                RestrorationError::InconsistentPrefixes(troublesome_states),
+                RestrorationError::InconsistentPrefixes(problem_entries.join(", ")),
             ));
         }
         // Now, we remove the "core" frames, and dump them out

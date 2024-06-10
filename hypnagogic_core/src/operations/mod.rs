@@ -9,6 +9,7 @@ use dmi::error::DmiError;
 use dmi::icon::Icon;
 use enum_dispatch::enum_dispatch;
 use format_converter::bitmask_to_precut::BitmaskSliceReconstruct;
+use modifiers::dmi_masking::DMIMasking;
 use image::{DynamicImage, ImageError, ImageFormat};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -20,6 +21,7 @@ use crate::operations::error::ProcessorResult;
 pub mod cutters;
 pub mod error;
 pub mod format_converter;
+pub mod modifiers;
 
 #[derive(Debug, Error)]
 pub enum InputError {
@@ -336,4 +338,5 @@ pub enum IconOperation {
     BitmaskDirectionalVis,
     BitmaskWindows,
     BitmaskSliceReconstruct,
+    DMIMasking
 }

@@ -11,6 +11,8 @@ pub enum ProcessorError {
     ImageError(#[from] image::error::ImageError),
     #[error("Restoration Error")]
     RestorationFailed(#[from] crate::operations::format_converter::error::RestrorationError),
+    #[error("Masking Error")]
+    MaskingFailed(#[from] crate::operations::modifiers::error::MaskingError),
     #[error("Generation Error")]
     GenerationFailed(#[from] crate::generation::error::GenerationError),
     #[error("Error within image config:\n{0}")]
@@ -34,6 +36,7 @@ impl UFE for ProcessorError {
             }
             ProcessorError::ImageError(error) => Some(vec![format!("{}", error)]),
             ProcessorError::RestorationFailed(error) => error.reasons(),
+            ProcessorError::MaskingFailed(error) => error.reasons(),
             ProcessorError::GenerationFailed(error) => error.reasons(),
             ProcessorError::ConfigError(config) => Some(vec![format!("{}", config)]),
         }
@@ -55,6 +58,7 @@ impl UFE for ProcessorError {
             }
             ProcessorError::ImageError(_) => None,
             ProcessorError::RestorationFailed(error) => error.helptext(),
+            ProcessorError::MaskingFailed(error) => error.helptext(),
             ProcessorError::GenerationFailed(error) => error.helptext(),
             ProcessorError::ConfigError(_config) => {
                 Some("TBH this needs to be its own error type".to_string())
